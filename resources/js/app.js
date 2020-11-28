@@ -13,3 +13,4 @@ require('./bootstrap');
  */
 
 require('./components/Example');
+require('/resources/css/tailwind.css')
