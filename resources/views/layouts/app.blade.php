@@ -15,70 +15,71 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="relative flex flex-wrap items-center content-between py-3 px-4  text-black bg-white shadow-sm">
-            <div class="container mx-auto sm:px-4">
-                <a class="inline-block pt-1 pb-1 mr-4 text-lg whitespace-no-wrap" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+        <nav class="sticky top-0 z-50 flex flex-wrap items-center content-between py-3 px-4 text-black bg-white shadow-sm">
+            <div class="container mx-auto sm:px-4 grid-cols-2 grid">
+                <a class="inline-flex pt-1 pb-1 mr-4 text-lg whitespace-no-wrap col-start-1" href="{{ url('/') }}">
+                    <img src="{{asset('storage/logo/himatif-logo.png')}}" class="w-32 h-auto">
                 </a>
-                <button class="py-1 px-2 text-md leading-normal bg-transparent border border-transparent rounded" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="px-5 py-1 border border-gray-600 rounded"></span>
+                <button class="object-right btn dropdown-toggle col-start-3 col-end-auto" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @guest
+                    {{_('Account')}}
+                    @endguest
+                    @auth('web')
+                    {{ Auth::user()->name }}
+                    @endauth
+                    {{_(Route::has('login'))}}
                 </button>
 
-                <div class="hidden flex-grow items-center" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="flex flex-wrap list-reset pl-0 mb-0 mr-auto">
-
-                    </ul>
-
+                <div class="hidden items-center dropdown-menu origin-top-right dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <!-- Right Side Of Navbar -->
-                    <ul class="flex flex-wrap list-reset pl-0 mb-0 ml-auto">
+                    @guest
+                    @if (Route::current()->uri == 'register')
+                    <div class="hover:bg-gray-100">
                         <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="">
-                                    <a class="inline-block py-2 px-4 no-underline" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-                            
-                            @if (Route::has('register'))
-                                <li class="">
-                                    <a class="inline-block py-2 px-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class=" relative">
-                                <a id="navbarDropdown" class="inline-block py-2 px-4 no-underline  inline-block w-0 h-0 ml-1 align border-b-0 border-t-1 border-r-1 border-l-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class=" absolute left-0 z-50 float-left hidden list-reset	 py-2 mt-1 text-base bg-white border border-gray-300 rounded dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="block w-full py-1 px-6 font-normal text-gray-900 whitespace-no-wrap border-0" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                        
+                        <a class="inline-block py-2 px-4 no-underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        
+                    </div>
+                    @endif
+                    @if (Route::current()->uri == 'login')
+                    <div class="hover:bg-gray-100">
+                        
+                        <a class="inline-block py-2 px-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        
+                    </div>
+                    @endif
+                    @else
+                    <div class="hover:bg-gray-100">
+                        <a class="inline-block py-2 px-4 no-underline" href="#">
+                            {{ _('Profile') }}
+                        </a>
+                    </div>
+                    <div class="hover:bg-gray-100">
+                        <a class="inline-block py-1 px-6 no-underline" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                        <div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                    @endguest
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
 </body>
 </html>
