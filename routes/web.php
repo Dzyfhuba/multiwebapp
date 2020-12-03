@@ -21,10 +21,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 //     return view('welcome');
 // });
 
-Route::group(['middleware' => ['guest', ]], function(){
-	Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-});
-
 Route::group(['middleware' => ['role:admin|user']], function(){
 	// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
