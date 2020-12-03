@@ -13,8 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    @guest
+                    {{_('Guest dipersilahkan untuk berkunjung')}}
+                    @endguest
+                    @role('web')
                     {{ __('You are logged in!') }}
+                    @endrole
                     @role('user')
                     {{_('Kamu seorang user')}}
                     @endrole

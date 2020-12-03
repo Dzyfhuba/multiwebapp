@@ -23,10 +23,15 @@
 <body>
     <div id="app">
         <nav class="sticky top-0 z-50 flex flex-wrap items-center content-between py-3 px-4 text-black bg-white shadow-sm">
-            <div class="container mx-auto sm:px-4 grid-cols-2 grid">
-                <a class="inline-flex pt-1 pb-1 mr-4 text-lg whitespace-no-wrap col-start-1" href="{{ url('/') }}">
-                    <img src="{{asset('storage/logo/himatif-logo.png')}}" class="w-32 h-auto">
-                </a>
+            <div class="container mx-auto sm:px-4 grid-cols-2 grid block">
+                <div class="">
+                    <a class="" href="{{ url('/') }}">
+                        <img src="{{asset('storage/logo/himatif-logo.png')}}" class="w-32 h-auto">
+                    </a>
+                </div>
+                <div class="">
+                    <a href="" class="{{Route::current()->uri == '/' ? ' font-bold' : ''}}">{{_('Dashboard')}}</a>
+                </div>
                 <button class="object-right btn dropdown-toggle col-start-3 col-end-auto" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @guest
                     {{_('Account')}}
@@ -34,13 +39,12 @@
                     @auth('web')
                     {{ Auth::user()->name }}
                     @endauth
-                    {{_(Route::has('login'))}}
                 </button>
 
                 <div class="hidden items-center dropdown-menu origin-top-right dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <!-- Right Side Of Navbar -->
                     @guest
-                    @if (Route::current()->uri == 'register')
+                    @if (Route::current()->uri != 'login')
                     <div class="hover:bg-gray-100">
                         <!-- Authentication Links -->
                         
@@ -48,9 +52,9 @@
                         
                     </div>
                     @endif
-                    @if (Route::current()->uri == 'login')
+                    @if (Route::current()->uri != 'register')
                     <div class="hover:bg-gray-100">
-                        
+
                         <a class="inline-block py-2 px-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
                         
                     </div>
